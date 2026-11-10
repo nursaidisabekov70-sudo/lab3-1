@@ -1,21 +1,20 @@
--- если товар ни разу не был заказан, осавить пустое место
+-- если к факультету не относится ни одной группы, оставить пустое поле
 SELECT
-p.product_code,
-p.name,
-p.color,
-oc.order_number,
-oc.quantity
-FROM products p
-LEFT JOIN order_contents oc ON p.product_code = oc.product_code;
+f.faculty_code,
+f.faculty_name,
+g.group_number,
+g.max_people,
+g.curator
+FROM faculties f
+LEFT JOIN groups g ON f.faculty_code = g.faculty_code;
 
--- если был заказ товар. не зарегистрированный в бд, оставив пустое поле
-
+-- если группа относится к факультету, не зарегистрированному в бд, оставить пустое поле
 SELECT
-p.product_code,
-p.name,
-p.color,
-oc.order_number,
-oc.product_code AS order_product_code,
-oc.quantity
-FROM products p
-RIGHT JOIN order_contents oc ON p.product_code = oc.product_code;
+f.faculty_code,
+f.faculty_name,
+g.group_number,
+g.faculty_code AS group_faculty_code,
+g.max_people,
+g.curator
+FROM faculties f
+RIGHT JOIN groups g ON f.faculty_code = g.faculty_code;
